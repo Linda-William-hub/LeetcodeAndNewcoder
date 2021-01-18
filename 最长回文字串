@@ -1,0 +1,57 @@
+class Solution {
+public:
+	int Palindrome(const string &s, int i, int j)
+	{
+		int n = s.size();
+		int count = 0;
+		while (i >= 0 && j < n)
+		{
+			if (s[i] != s[j])
+				break;
+			i--;
+			j++; 
+			count++;
+		}
+		return count;
+	}
+	
+    string longestPalindrome(string s) {
+        //用的是双指针
+        //能解出来，但是复杂度有点高  
+        //应该可以用hash进行加速 
+		int i, j, k, t;
+		int best_i;
+		int count;
+		int best;
+		unordered_map<int, vector<int> > hash;
+		int n = s.size();
+		if (n <= 1)
+			return s;
+        best = 1;
+        best_i = 0;
+		for (i = 1; i < n - 1; i++)  //中心点遍历 
+		{
+			//全部为奇数
+			count = Palindrome(s, i - 1, i + 1) * 2 + 1;
+			if (count > best)
+			{
+				best_i = i - count / 2;
+				best = count;
+			}
+		}
+		for (i = 0; i < n - 1; i++)  //与右边一个形成对称 
+		{
+			if (s[i] == s[i + 1])
+			{
+				count = Palindrome(s, i - 1, i + 2) * 2 + 2;
+				if (count > best)
+				{
+					best_i = i - count / 2 + 1;
+					best = count;
+				}
+			}
+		}
+		//取出子串
+		return s.substr(best_i, best);
+    }
+};
