@@ -1,5 +1,17 @@
+//这是2020年初，做题的时候写的代码
+/*
+  代码思路：
+  最长回文子串，有两种可能的形式
+  1、以某个字母为中心点的最长回文字串
+  2、相邻两个相同为中心的最长回文字串 
+*/
+/*方法:
+  总: 从左往右遍历所有位置，保留最大值
+  回文长度计算: 取某个位置时，往左右同时延伸，直到左右两边不同为止
+*/
 class Solution {
 public:
+	//双指针
 	int Palindrome(const string &s, int i, int j)
 	{
 		int n = s.size();
@@ -27,19 +39,22 @@ public:
 		int n = s.size();
 		if (n <= 1)
 			return s;
-        best = 1;
-        best_i = 0;
-		for (i = 1; i < n - 1; i++)  //中心点遍历 
+        	best = 1;
+        	best_i = 0;
+		//以某个位置为中心点遍历
+		//"tat"
+		for (i = 1; i < n - 1; i++)   
 		{
-			//全部为奇数
 			count = Palindrome(s, i - 1, i + 1) * 2 + 1;
 			if (count > best)
 			{
-				best_i = i - count / 2;
-				best = count;
+				best_i = i - count / 2;  //记录起始位置
+				best = count;   //记录最大长度
 			}
 		}
-		for (i = 0; i < n - 1; i++)  //与右边一个形成对称 
+		//与右边一个相同，两者为中心形成对称的子串的遍历
+		//"caac"
+		for (i = 0; i < n - 1; i++)   
 		{
 			if (s[i] == s[i + 1])
 			{
