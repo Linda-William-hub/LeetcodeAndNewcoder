@@ -28,9 +28,6 @@ public:
 	}
 	
     string longestPalindrome(string s) {
-        //用的是双指针
-        //能解出来，但是复杂度有点高  
-        //应该可以用hash进行加速 
 		int i, j, k, t;
 		int best_i;
 		int count;
