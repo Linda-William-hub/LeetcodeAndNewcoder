@@ -1,0 +1,37 @@
+//暴力搜索 + 前缀和
+//在leetcode运行，大概1000秒多，时间是动态规划代码的100倍，多了一重循环
+
+class Solution {
+    void PrefixSum(vector<int> &sum, const vector<int> &nums)
+    {
+      sum[0] = 0; 
+      for (int i = 0, j = 1; i < nums.size(); i++, j++)
+      {
+        sum[j] = sum[j - 1] + nums[i];  //sum[j]表示当前位置的前缀和 
+      }
+      return;
+    }
+public:	
+    int maxSubArray(vector<int>& nums) 
+    {
+      int i, j;
+      int tmp; 
+      int n = nums.size();
+      int max = -9999999;
+      vector<int> sum(n + 1, 0);
+      PrefixSum(sum, nums);
+
+      for (int len = 0; len < n; len++)
+      {
+        for (i = 1; i + len <= n; i++)  //j肯定是合法的   i从1开始
+        {
+          j = i + len; 
+          tmp = sum[j] - sum[i - 1];   //tmp = f[i][j] = sum[j] - sum[i - 1];
+          if (tmp > max)
+            max = tmp;
+        }
+      }
+
+      return max;
+    }
+};
