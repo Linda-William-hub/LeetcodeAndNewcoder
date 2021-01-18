@@ -1,0 +1,75 @@
+//今天重新写一下题目
+//之前的写法不只是很直观, 下面的写法直观简单很多，一半是进行复制，小改
+//思路还是一样的
+/*
+思路:
+最长回文字串最可能有两种形式
+  以某个字符为对称中心
+  以某两个相同的字符为中心
+*/
+/*方法：
+  从左往右遍历所有位置
+  从某个位置开始，向左右同时展开(双指针)，直到左右不同是，停止
+*/
+class Solution {
+public:
+    string longestPalindrome(string s) {
+		int i, j, k;
+		int max = 0;
+		int tmpMax;
+		int beginIndex = -1; 
+    //以第i个为中心的最长回文子串 
+		for (i = 0; i < s.size(); i++)
+		{
+			//以第i个为中心，往两边扩展
+			k = i - 1;
+			j = i + 1;
+			tmpMax = 1;
+			for (; k >= 0 && j <= s.size(); k--, j++)
+			{
+				if (s[k] == s[j])
+					tmpMax += 2;	
+				else
+					break;
+			} 
+			if (tmpMax > max)
+			{
+				max = tmpMax;
+				beginIndex = k + 1;
+			}	
+		}
+		//以两个相同为中心的最长回文子串 
+		for (i = 0; i < s.size() - 1; i++)
+		{
+			//以第i和i+1个为中心，往两边扩展
+			if (s[i] == s[i + 1])
+			{
+				k = i - 1;
+				j = i + 2;    //只有这个不同   其余都跟上面是一样的
+				tmpMax = 2;
+				for (; k >= 0 && j <= s.size(); k--, j++)
+				{
+					if (s[k] == s[j])
+						tmpMax += 2;	
+					else
+						break;
+				} 
+				if (tmpMax > max)
+				{
+					max = tmpMax;
+					beginIndex = k + 1;
+				}
+			}
+		}
+    
+    //取出子串  可以直接用 .substr()方法 取出字串
+		if (max == 0)
+			return "";
+		string subStr;
+		for (i = 0, j = beginIndex; i < max; i++, j++)
+		{
+			subStr.push_back(s[j]);
+		}
+		return subStr;
+	}
+};
